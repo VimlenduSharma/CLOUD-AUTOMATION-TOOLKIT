@@ -1,0 +1,13 @@
+services:
+  fleet-health:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      FLEET_DATA_PATH: /app/data/reports.json
+    volumes:
+      - fleet-health-data:/app/data
+
+volumes:
+  fleet-health-data:
+

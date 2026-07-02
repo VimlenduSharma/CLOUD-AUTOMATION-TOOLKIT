@@ -1,0 +1,4 @@
+# Runtime uses only the Python standard library.
+# Install pytest locally if you want the optional test runner:
+# python3 -m pip install pytest
+

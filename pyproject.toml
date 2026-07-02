@@ -1,0 +1,10 @@
+[project]
+name = "windows-fleet-health-toolkit"
+version = "1.0.0"
+description = "Windows fleet health dashboard, PowerShell collector, and Python diagnostics."
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["backend"]
+testpaths = ["tests"]
+

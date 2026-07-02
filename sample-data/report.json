@@ -1,0 +1,20 @@
+{
+  "hostname": "WIN-OPS-001",
+  "os": "Microsoft Windows Server 2022 Datacenter",
+  "cpu_percent": 38.5,
+  "memory_percent": 64.1,
+  "failed_services": 0,
+  "services": [
+    { "name": "WinRM", "status": "Running" },
+    { "name": "EventLog", "status": "Running" },
+    { "name": "LanmanServer", "status": "Running" }
+  ],
+  "checks": [
+    {
+      "name": "http_endpoint",
+      "status": "pass",
+      "message": "https://github.com returned HTTP 200.",
+      "latency_ms": 210
+    }
+  ]
+}
