@@ -1,10 +1,83 @@
 const state = {
   fleet: null,
   checks: [],
+  demoMode: false,
 };
 
 const hostsTable = document.querySelector("#hostsTable");
 const checksList = document.querySelector("#checksList");
+const demoFleet = {
+  total_hosts: 4,
+  healthy: 2,
+  warning: 1,
+  critical: 1,
+  reports_received: 18,
+  hosts: [
+    {
+      hostname: "WIN-OPS-001",
+      cpu_percent: 38.5,
+      memory_percent: 64.1,
+      failed_services: 0,
+      received_at: "2026-07-10T04:20:00Z",
+      checks: [{ name: "http_endpoint", status: "pass", message: "https://github.com returned HTTP 200." }],
+    },
+    {
+      hostname: "WIN-DB-014",
+      cpu_percent: 78.2,
+      memory_percent: 81.4,
+      failed_services: 0,
+      received_at: "2026-07-10T04:18:00Z",
+      checks: [{ name: "disk_threshold", status: "warn", message: "C:\\ has 16.8% free space." }],
+    },
+    {
+      hostname: "WIN-IIS-022",
+      cpu_percent: 91.6,
+      memory_percent: 88.0,
+      failed_services: 1,
+      received_at: "2026-07-10T04:16:00Z",
+      checks: [{ name: "tcp_connectivity", status: "fail", message: "Could not connect to app.internal:443." }],
+    },
+    {
+      hostname: "WIN-JUMP-007",
+      cpu_percent: 25.3,
+      memory_percent: 42.8,
+      failed_services: 0,
+      received_at: "2026-07-10T04:12:00Z",
+      checks: [{ name: "dns_resolution", status: "pass", message: "github.com resolved." }],
+    },
+  ],
+};
+
+const demoChecks = [
+  {
+    name: "dns_resolution",
+    status: "pass",
+    message: "github.com resolved to public addresses.",
+    latency_ms: 26,
+  },
+  {
+    name: "tcp_connectivity",
+    status: "pass",
+    message: "Connected to github.com:443.",
+    latency_ms: 48,
+  },
+  {
+    name: "http_endpoint",
+    status: "pass",
+    message: "https://github.com returned HTTP 200.",
+    latency_ms: 182,
+  },
+  {
+    name: "disk_threshold",
+    status: "warn",
+    message: "Demo host C:\\ has 16.8% free space.",
+  },
+  {
+    name: "file_permission",
+    status: "pass",
+    message: "Collector directory allows read access.",
+  },
+];
 
 function hostStatus(host) {
   const failedChecks = (host.checks || []).filter((check) => check.status === "fail").length;
@@ -78,13 +151,29 @@ function renderChecks() {
 }
 
 async function refreshFleet() {
-  state.fleet = await fetchJson("/api/fleet");
+  try {
+    state.fleet = await fetchJson("/api/fleet");
+    state.demoMode = false;
+  } catch (error) {
+    state.fleet = demoFleet;
+    state.demoMode = true;
+  }
   renderFleet();
 }
 
 async function runChecks() {
-  const result = await fetchJson("/api/checks");
-  state.checks = result.checks;
+  if (state.demoMode || window.location.protocol === "file:") {
+    state.checks = demoChecks;
+    renderChecks();
+    return;
+  }
+  try {
+    const result = await fetchJson("/api/checks");
+    state.checks = result.checks;
+  } catch (error) {
+    state.checks = demoChecks;
+    state.demoMode = true;
+  }
   renderChecks();
 }
 
@@ -92,6 +181,4 @@ document.querySelector("#refreshButton").addEventListener("click", refreshFleet)
 document.querySelector("#runChecksButton").addEventListener("click", runChecks);
 
 renderChecks();
-refreshFleet().catch((error) => {
-  hostsTable.innerHTML = `<tr><td colspan="5">${error.message}</td></tr>`;
-});
+refreshFleet();

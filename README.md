@@ -23,6 +23,14 @@ flowchart LR
 
 ## Quick Start
 
+Frontend preview from GitHub Pages:
+
+```text
+https://vimlendusharma.github.io/CLOUD-AUTOMATION-TOOLKIT/
+```
+
+The GitHub Pages preview uses built-in demo data because the static hosting layer does not run the Python API. For live collector data, run the backend locally or in Docker.
+
 ```bash
 cd windows-fleet-health-toolkit
 PYTHONPATH=backend python3 -m fleet_health.app
@@ -137,4 +145,3 @@ tests/                      Unit tests
 docs/                       Additional project notes
 sample-data/                Example host report
 ```
-
