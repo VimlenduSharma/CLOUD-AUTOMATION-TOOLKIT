@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Windows Fleet Health Toolkit</title>
+    <link rel="stylesheet" href="./styles.css?v=3" />
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">WF</div>
+          <div>
+            <strong>Fleet Health</strong>
+            <span>Windows automation toolkit</span>
+          </div>
+        </div>
+        <nav aria-label="Primary">
+          <a href="#overview" class="active">Overview</a>
+          <a href="#hosts">Hosts</a>
+          <a href="#checks">Checks</a>
+          <a href="#runbook">Runbook</a>
+        </nav>
+      </aside>
+
+      <section class="content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Operations Console</p>
+            <h1>Windows Fleet Health & PowerShell Automation</h1>
+          </div>
+          <button id="refreshButton" class="icon-button" title="Refresh data" aria-label="Refresh data">
+            <span aria-hidden="true">↻</span>
+          </button>
+        </header>
+
+        <section id="overview" class="metrics-grid" aria-label="Fleet summary">
+          <article class="metric healthy">
+            <span>Healthy</span>
+            <strong id="healthyCount">0</strong>
+          </article>
+          <article class="metric warning">
+            <span>Warning</span>
+            <strong id="warningCount">0</strong>
+          </article>
+          <article class="metric critical">
+            <span>Critical</span>
+            <strong id="criticalCount">0</strong>
+          </article>
+          <article class="metric neutral">
+            <span>Reports</span>
+            <strong id="reportCount">0</strong>
+          </article>
+        </section>
+
+        <section class="grid-two">
+          <section id="hosts" class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Inventory</p>
+                <h2>Host Signals</h2>
+              </div>
+              <span id="hostCount" class="badge">0 hosts</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Host</th>
+                    <th>CPU</th>
+                    <th>Memory</th>
+                    <th>Services</th>
+                    <th>Last report</th>
+                  </tr>
+                </thead>
+                <tbody id="hostsTable"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section id="checks" class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Automated Diagnostics</p>
+                <h2>DNS, TCP, HTTP, Disk, Permissions</h2>
+              </div>
+              <button id="runChecksButton" class="primary-button">Run</button>
+            </div>
+            <div id="checksList" class="checks-list"></div>
+          </section>
+        </section>
+
+        <section id="runbook" class="panel runbook">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Repeatable Operations</p>
+              <h2>Collector Execution</h2>
+            </div>
+          </div>
+          <div class="runbook-grid">
+            <div>
+              <h3>PowerShell collection</h3>
+              <pre><code>pwsh ./scripts/powershell/Collect-FleetHealth.ps1 `
+  -ApiUrl http://localhost:8080/api/reports `
+  -Endpoint https://github.com</code></pre>
+            </div>
+            <div>
+              <h3>Python checks</h3>
+              <pre><code>python3 ./scripts/python/run_checks.py --api http://localhost:8080</code></pre>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="./app.js?v=2"></script>
+  </body>
+</html>
