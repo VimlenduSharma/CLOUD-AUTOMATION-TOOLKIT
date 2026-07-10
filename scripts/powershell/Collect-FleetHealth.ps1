@@ -80,7 +80,7 @@ function Test-TcpConnectivity {
         return @{
             name = "tcp_connectivity"
             status = if ($connected) { "pass" } else { "fail" }
-            message = if ($connected) { "Connected to $Hostname`:$Port." } else { "Timeout connecting to $Hostname`:$Port." }
+            message = if ($connected) { "Connected to ${Hostname}:${Port}." } else { "Timeout connecting to ${Hostname}:${Port}." }
             metadata = @{ hostname = $Hostname; port = $Port }
         }
     }
@@ -88,7 +88,7 @@ function Test-TcpConnectivity {
         return @{
             name = "tcp_connectivity"
             status = "fail"
-            message = "Could not connect to $Hostname`:$Port: $($_.Exception.Message)"
+            message = "Could not connect to ${Hostname}:${Port}: $($_.Exception.Message)"
             metadata = @{ hostname = $Hostname; port = $Port }
         }
     }
@@ -132,4 +132,3 @@ $payload = @{
 $json = $payload | ConvertTo-Json -Depth 8
 Write-Host $json
 Invoke-RestMethod -Method Post -Uri $ApiUrl -Body $json -ContentType "application/json"
-
