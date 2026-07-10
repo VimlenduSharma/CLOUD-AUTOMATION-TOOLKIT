@@ -29,7 +29,7 @@ Frontend preview from GitHub Pages:
 https://vimlendusharma.github.io/CLOUD-AUTOMATION-TOOLKIT/
 ```
 
-The GitHub Pages preview uses built-in demo data because the static hosting layer does not run the Python API. For live collector data, run the backend locally or in Docker.
+The `Frontend preview` workflow publishes the static dashboard to the `gh-pages` branch. In repository settings, set GitHub Pages to **Deploy from a branch**, choose `gh-pages`, and choose `/root`. The preview uses built-in demo data because the static hosting layer does not run the Python API. For live collector data, run the backend locally or in Docker.
 
 ```bash
 cd windows-fleet-health-toolkit
